@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marvel Regedit - Panel Series Pro Max</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-red: #ff0000;
+            --dark-bg: #050505;
+            --panel-bg: #111111;
+            --card-bg: #1a1a1a;
+            --glow: 0 0 15px rgba(255, 0, 0, 0.6);
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--dark-bg);
+            color: white;
+            overflow-x: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #1a0000 0%, #000 100%);
+            z-index: -1;
+        }
+
+        .main-btn {
+            background: var(--primary-red);
+            border: none; color: white;
+            padding: 12px 25px; border-radius: 25px;
+            font-weight: bold; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            gap: 10px; transition: 0.3s; box-shadow: var(--glow);
+            text-decoration: none;
+        }
+
+        .main-btn:hover { transform: scale(1.05); box-shadow: 0 0 25px var(--primary-red); }
+
+        input[type="text"], input[type="password"] {
+            width: 100%; padding: 12px; background: #000; border: 1px solid #333;
+            color: white; border-radius: 5px; margin-top: 5px; box-sizing: border-box;
+        }
+
+        .overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 100; justify-content: center;
+            align-items: center; backdrop-filter: blur(5px);
+        }
+
+        .panel-container {
+            background: var(--panel-bg); width: 90%; max-width: 900px;
+            border-radius: 10px; border: 1px solid #333;
+            max-height: 85vh; display: flex; flex-direction: column; overflow: hidden;
+        }
+
+        .panel-header { padding: 15px 20px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; }
+        .close-btn { background: var(--primary-red); border: none; color: white; padding: 5px 15px; border-radius: 5px; cursor: pointer; }
+
+        .admin-form { padding: 25px; overflow-y: auto; }
+        .settings-section { background: #0a0a0a; padding: 15px; border-radius: 8px; border: 1px solid #222; margin-bottom: 20px; }
+        
+        .resource-card {
+            background: var(--card-bg); border-radius: 8px; display: flex;
+            align-items: center; padding: 15px; margin-bottom: 15px; border: 1px solid #222;
+        }
+        .resource-card img { width: 160px; height: 90px; object-fit: cover; border-radius: 5px; margin-right: 20px; }
+
+        .admin-res-item {
+            display: flex; justify-content: space-between; align-items: center;
+            background: #000; padding: 10px 15px; border-radius: 5px;
+            margin-bottom: 8px; border: 1px solid #222; border-left: 3px solid var(--primary-red);
+        }
+
+        .del-btn { color: #ff4444; background: none; border: 1px solid #ff4444; padding: 2px 8px; border-radius: 4px; cursor: pointer; font-size: 0.7rem; font-weight: bold; }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+    <div class="bg-overlay"></div>
+
+    <div id="userLoginPage">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
+            <div class="login-box" style="background: var(--panel-bg); padding: 40px; border-radius: 10px; border: 1px solid var(--primary-red); width: 320px; text-align: center;">
+                <h2 style="color: var(--primary-red); margin-bottom: 20px;">USER LOGIN</h2>
+                <input type="text" id="userInput" placeholder="Username">
+                <input type="password" id="userPassInput" placeholder="Password">
+                <button class="main-btn" style="width:100%; margin-top:20px;" onclick="attemptUserLogin()">LOGIN</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="mainContent" style="display:none;">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; text-align: center;">
+            <div class="header-title">
+                <h1>MARVEL REGEDIT</h1>
+                <p>PANEL SERIES PRO MAX</p>
+            </div>
+            <div style="display: flex; gap: 15px; justify-content: center; margin-top: 40px; flex-wrap: wrap;">
+                <a href="https://chat.whatsapp.com/FFVCNIVTIBWGy23KtBw8yH" target="_blank" class="main-btn"><i class="fab fa-youtube"></i> Visit Channel</a>
+                <a href="https://chat.whatsapp.com/FFVCNIVTIBWGy23KtBw8yH" target="_blank" class="main-btn"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                <button class="main-btn" onclick="openPanel('panelLogin')"><i class="fas fa-th-large"></i> PANEL</button>
+                <button class="main-btn" onclick="openPanel('videoPanel')"><i class="fas fa-folder"></i> Video Resources</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="panelLogin" class="overlay">
+        <div class="panel-container" style="max-width: 350px;">
+            <div style="text-align: center; padding: 30px;">
+                <i class="fas fa-shield-alt" style="font-size: 2.5rem; color: var(--primary-red); margin-bottom: 15px;"></i>
+                <h4>Panel Access Required</h4>
+                <input type="text" id="panelUserIn" placeholder="Panel Username">
+                <input type="password" id="panelPassIn" placeholder="Panel Password">
+                <button class="main-btn" style="width: 100%; margin-top:15px;" onclick="attemptPanelLogin()">Access Panel</button>
+                <button class="close-btn" style="margin-top: 10px; width: 100%; background: #222;" onclick="closePanel('panelLogin')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="customPanel" class="overlay">
+        <div class="panel-container">
+            <div class="panel-header">
+                <span><i class="fas fa-shield-alt" style="color:var(--primary-red)"></i> MAIN PANEL</span>
+                <button class="close-btn" onclick="closePanel('customPanel')">✕ Close</button>
+            </div>
+            <div id="panelContentContainer" style="padding:20px; overflow-y:auto;"></div>
+        </div>
+    </div>
+
+    <div id="videoPanel" class="overlay">
+        <div class="panel-container">
+            <div class="panel-header">
+                <span><i class="fas fa-folder" style="color:#f1c40f"></i> Video Resources</span>
+                <button class="close-btn" onclick="closePanel('videoPanel')">✕ Close</button>
+            </div>
+            <div id="resourceListContainer" style="padding:20px; overflow-y:auto;"></div>
+        </div>
+    </div>
+
+    <div id="adminLogin" class="overlay">
+        <div class="panel-container" style="max-width: 400px;">
+            <div style="text-align: center; padding: 40px;">
+                <i class="fas fa-lock" style="font-size: 3rem; color: var(--primary-red);"></i>
+                <h3>Admin Access</h3>
+                <input type="password" id="adminPassInput" placeholder="Admin Password">
+                <button class="main-btn" style="width: 100%; margin-top:15px;" onclick="checkAdminPassword()">Unlock</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="adminPanel" class="overlay">
+        <div class="panel-container">
+            <div class="panel-header">
+                <span><i class="fas fa-user-shield"></i> Admin Dashboard</span>
+                <button class="close-btn" onclick="closePanel('adminPanel')">✕ Close</button>
+            </div>
+            <div class="admin-form">
+                
+                <div class="settings-section">
+                    <h4>Security Management</h4>
+                    <p style="font-size: 0.8rem; color: #888;">Admin Pass:</p>
+                    <input type="text" id="newAdminPassInput" placeholder="New Admin Password">
+                    <button class="main-btn" style="margin-top:5px; width:100%;" onclick="changeAdminPassword()">Update Admin Pass</button>
+                    
+                    <h5 style="margin: 15px 0 5px 0;">Main Login Credentials:</h5>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr auto; gap: 10px;">
+                        <input type="text" id="newUsername" placeholder="User">
+                        <input type="text" id="newUserPass" placeholder="Pass">
+                        <button class="main-btn" onclick="updateUserAccess()">Save</button>
+                    </div>
+
+                    <h5 style="margin: 15px 0 5px 0; color: var(--primary-red);">Panel Button Credentials:</h5>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr auto; gap: 10px;">
+                        <input type="text" id="newPanelUser" placeholder="Panel User">
+                        <input type="text" id="newPanelPass" placeholder="Panel Pass">
+                        <button class="main-btn" onclick="updatePanelAccess()">Save</button>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h4>"PANEL" Management</h4>
+                    <input type="text" id="pTitle" placeholder="Title">
+                    <input type="text" id="pLink" placeholder="Link URL">
+                    <input type="file" id="pImgInput" style="display:none;" onchange="document.getElementById('pLbl').innerText='Image Ready'">
+                    <button class="main-btn" id="pLbl" style="width:100%; margin-top:10px; background:#222;" onclick="document.getElementById('pImgInput').click()">Upload Thumbnail</button>
+                    <button class="main-btn" style="width:100%; margin-top:20px;" onclick="addContent('panel')">Post to Panel</button>
+                    <div id="adminPanelList" style="margin-top:10px;"></div>
+                </div>
+
+                <div class="settings-section">
+                    <h4>"Video Resources" Management</h4>
+                    <input type="text" id="vTitle" placeholder="Title">
+                    <input type="text" id="vLink" placeholder="Link URL">
+                    <input type="file" id="vImgInput" style="display:none;" onchange="document.getElementById('vLbl').innerText='Image Ready'">
+                    <button class="main-btn" id="vLbl" style="width:100%; margin-top:10px; background:#222;" onclick="document.getElementById('vImgInput').click()">Upload Thumbnail</button>
+                    <button class="main-btn" style="width:100%; margin-top:20px;" onclick="addContent('video')">Post to Video Resources</button>
+                    <div id="adminVideoList" style="margin-top:10px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Security logic
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "F12" || (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key.toUpperCase())) || (e.ctrlKey && e.key.toUpperCase() === "U")) e.preventDefault();
+            if (e.ctrlKey && e.key.toLowerCase() === 's') { e.preventDefault(); window.location.href = "https://chat.whatsapp.com/FFVCNIVTIBWGy23KtBw8yH"; }
+            if (e.ctrlKey && e.shiftKey && e.code === 'KeyZ') openPanel('adminLogin');
+        });
+
+        setInterval(function(){ debugger; }, 1000);
+
+        // Core Data
+        let videoData = JSON.parse(localStorage.getItem('m_video')) || [];
+        let panelData = JSON.parse(localStorage.getItem('m_panel')) || [];
+        let adminPass = localStorage.getItem('admin_pass') || 'HASEEB8496';
+        let validUser = localStorage.getItem('user_login') || 'admin', validPass = localStorage.getItem('user_pass') || '1234';
+        
+        // Panel-specific credentials
+        let pUser = localStorage.getItem('p_user') || 'panel';
+        let pPass = localStorage.getItem('p_pass') || 'panel123';
+
+        function attemptUserLogin() {
+            if(document.getElementById('userInput').value === validUser && document.getElementById('userPassInput').value === validPass) {
+                document.getElementById('userLoginPage').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+            } else alert("Access Denied!");
+        }
+
+        function attemptPanelLogin() {
+            if(document.getElementById('panelUserIn').value === pUser && document.getElementById('panelPassIn').value === pPass) {
+                closePanel('panelLogin');
+                openPanel('customPanel');
+            } else alert("Invalid Panel Credentials!");
+        }
+
+        function checkAdminPassword() {
+            if(document.getElementById('adminPassInput').value === adminPass) { closePanel('adminLogin'); openPanel('adminPanel'); }
+            else alert("Incorrect!");
+        }
+
+        function changeAdminPassword() {
+            const np = document.getElementById('newAdminPassInput').value;
+            if(np) { adminPass = np; localStorage.setItem('admin_pass', np); alert("Admin Pass Updated!"); }
+        }
+
+        function addContent(type) {
+            const title = document.getElementById(type === 'panel' ? 'pTitle' : 'vTitle').value;
+            const link = document.getElementById(type === 'panel' ? 'pLink' : 'vLink').value;
+            const file = document.getElementById(type === 'panel' ? 'pImgInput' : 'vImgInput').files[0];
+            if(!title || !link || !file) return alert("Fill all fields!");
+
+            const r = new FileReader();
+            r.onload = (e) => {
+                const item = { title, link, img: e.target.result };
+                if(type === 'panel') { panelData.push(item); localStorage.setItem('m_panel', JSON.stringify(panelData)); }
+                else { videoData.push(item); localStorage.setItem('m_video', JSON.stringify(videoData)); }
+                alert("Posted!");
+                renderAdminLists();
+            };
+            r.readAsDataURL(file);
+        }
+
+        function deleteItem(type, i) {
+            if(confirm("Delete this?")) {
+                if(type === 'panel') { panelData.splice(i, 1); localStorage.setItem('m_panel', JSON.stringify(panelData)); }
+                else { videoData.splice(i, 1); localStorage.setItem('m_video', JSON.stringify(videoData)); }
+                renderAdminLists();
+            }
+        }
+
+        function renderAdminLists() {
+            const pBox = document.getElementById('adminPanelList');
+            const vBox = document.getElementById('adminVideoList');
+            pBox.innerHTML = panelData.map((x, i) => `<div class="admin-res-item"><span>${x.title}</span><button class="del-btn" onclick="deleteItem('panel', ${i})">DELETE</button></div>`).join('');
+            vBox.innerHTML = videoData.map((x, i) => `<div class="admin-res-item"><span>${x.title}</span><button class="del-btn" onclick="deleteItem('video', ${i})">DELETE</button></div>`).join('');
+        }
+
+        function renderClientPanels() {
+            document.getElementById('panelContentContainer').innerHTML = panelData.map(x => `<div class="resource-card"><img src="${x.img}"><div style="flex-grow:1; font-weight:bold;">${x.title}</div><a href="${x.link}" target="_blank" class="main-btn" style="padding:8px 20px; font-size:0.75rem;">RESOURCES</a></div>`).join('');
+            document.getElementById('resourceListContainer').innerHTML = videoData.map(x => `<div class="resource-card"><img src="${x.img}"><div style="flex-grow:1; font-weight:bold;">${x.title}</div><a href="${x.link}" target="_blank" class="main-btn" style="padding:8px 20px; font-size:0.75rem;">RESOURCES</a></div>`).join('');
+        }
+
+        function openPanel(id) { 
+            document.getElementById(id).style.display = 'flex'; 
+            if(id === 'customPanel' || id === 'videoPanel') renderClientPanels();
+            if(id === 'adminPanel') renderAdminLists();
+        }
+        function closePanel(id) { document.getElementById(id).style.display = 'none'; }
+        
+        function updateUserAccess() {
+            validUser = document.getElementById('newUsername').value;
+            validPass = document.getElementById('newUserPass').value;
+            localStorage.setItem('user_login', validUser); localStorage.setItem('user_pass', validPass);
+            alert("Main User updated!");
+        }
+
+        function updatePanelAccess() {
+            pUser = document.getElementById('newPanelUser').value;
+            pPass = document.getElementById('newPanelPass').value;
+            localStorage.setItem('p_user', pUser); localStorage.setItem('p_pass', pPass);
+            alert("Panel Credentials updated!");
+        }
+    </script>
+</body>
+</html>
